@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="LokendraGames - Download trending Android games and exclusive APKs like Chess Master LM.">
+    <meta name="keywords" content="LokendraGames, Download APK, Chess Master LM, Gaming Hub, Android Games">
+    <title>LokendraGames | Premium Gaming Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #FF9800; --secondary: #FFC107; --bg: #1a1a1a; --card: #252525; }
+        body { margin: 0; font-family: 'Exo 2', sans-serif; background: var(--bg); color: white; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(0,0,0,0.9); position: sticky; top: 0; border-bottom: 2px solid var(--primary); }
+        .logo { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+        .hero { text-align: center; padding: 50px 20px; }
+        #searchBar { width: 60%; max-width: 600px; padding: 15px; border-radius: 50px; border: 2px solid var(--primary); background: #000; color: white; outline: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; padding: 40px 5%; }
+        .card { background: var(--card); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #444; }
+        .card img { width: 90px; height: 90px; border-radius: 20px; margin-bottom: 15px; background: #333; object-fit: cover; }
+        .btn-download { display: block; margin-top: 10px; padding: 10px; background: var(--primary); color: black; border-radius: 8px; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav><div class="logo">LG</div><div style="font-size: 22px; font-weight: bold; color: var(--primary);">LOKENDRAGAMES</div></nav>
+    <div class="hero"><h1>Explore 40+ Trending Games</h1><input type="text" id="searchBar" placeholder="Search games..." onkeyup="filterGames()"></div>
+    <div class="grid" id="gameGrid"></div>
+
+    <script>
+        const games = [
+            { n: "Chess Master LM", id: "12rKDC5fEBC6FtflEh1byWIV2no6GEPAj", type: "custom" },
+            { n: "PUBG Mobile", id: "com.tencent.ig", type: "play" }, { n: "Free Fire", id: "com.dts.freefireth", type: "play" },
+            { n: "Minecraft", id: "com.mojang.minecraftpe", type: "play" }, { n: "GTA V", id: "com.rockstargames.gtav", type: "play" },
+            { n: "Genshin Impact", id: "com.miHoYo.GenshinImpact", type: "play" }, { n: "Roblox", id: "com.roblox.client", type: "play" },
+            { n: "Candy Crush", id: "com.king.candycrushsaga", type: "play" }, { n: "Among Us", id: "com.innersloth.spacemafia", type: "play" },
+            { n: "Call of Duty", id: "com.activision.callofduty.shooter", type: "play" }, { n: "Subway Surfers", id: "com.kiloo.subwaysurf", type: "play" },
+            { n: "Clash of Clans", id: "com.supercell.clashofclans", type: "play" }, { n: "Brawl Stars", id: "com.supercell.brawlstars", type: "play" },
+            { n: "Asphalt 9", id: "com.gameloft.android.ANMP.GloftA9HM", type: "play" }, { n: "8 Ball Pool", id: "com.miniclip.eightballpool", type: "play" },
+            { n: "Ludo King", id: "com.ludo.king", type: "play" }, { n: "Pokémon GO", id: "com.nianticlabs.pokemongo", type: "play" },
+            { n: "Temple Run 2", id: "com.imangi.templerun2", type: "play" }, { n: "Need for Speed", id: "com.ea.games.nfs13_row", type: "play" },
+            { n: "Shadow Fight 3", id: "com.nekki.shadowfight3", type: "play" }, { n: "Fortnite", id: "com.epicgames.fortnite", type: "play" },
+            { n: "Mini Militia", id: "com.appsomniacs.da2", type: "play" }, { n: "Dead by Daylight", id: "com.bhvr.deadbydaylight", type: "play" },
+            { n: "Fall Guys", id: "com.epicgames.portal", type: "play" }, { n: "Stardew Valley", id: "com.chucklefish.stardewvalley", type: "play" },
+            { n: "Terraria", id: "com.and.games505.Terraria", type: "play" }, { n: "Hitman Go", id: "com.squareenixmontreal.hitmango", type: "play" },
+            { n: "Monument Valley", id: "com.ustwo.monumentvalley", type: "play" }, { n: "Alto's Adventure", id: "com.noodlecake.altosadventure", type: "play" },
+            { n: "Crossy Road", id: "com.yodo1.crossyroad", type: "play" }, { n: "Final Fantasy VII", id: "com.square_enix.android_googleplay.FFVII", type: "play" },
+            { n: "Chrono Trigger", id: "com.square_enix.android_googleplay.chrono", type: "play" }, { n: "Castlevania", id: "jp.konami.am.castlevania.sotn", type: "play" },
+            { n: "Downwell", id: "com.devolver.downwell", type: "play" }, { n: "Disco Elysium", id: "com.zaumstudio.discoelysium", type: "play" },
+            { n: "Honkai Star Rail", id: "com.HoYoverse.hkrpgoversea", type: "play" }, { n: "Marvel Snap", id: "com.nvsgames.snap", type: "play" },
+            { n: "Wild Rift", id: "com.riotgames.league.wildrift", type: "play" }, { n: "Arena of Valor", id: "com.ngame.allstar.ggl", type: "play" },
+            { n: "E-Football 2026", id: "jp.konami.pesam", type: "play" }, { n: "FIFA Mobile", id: "com.ea.gp.fifamobile", type: "play" }
+        ];
+
+        function renderGames(list) {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = list.map(game => `
+                <div class="card">
+                    <img src="${game.type === 'custom' ? 'https://ui-avatars.com/api/?name=Chess&background=FF9800' : 'https://lh3.googleusercontent.com/' + game.id + '=w200-h200-rw'}" onerror="this.src='https://ui-avatars.com/api/?name=${game.n}'">
+                    <h3>${game.n}</h3>
+                    <a href="${game.type === 'custom' ? 'https://drive.google.com/uc?export=download&id=' + game.id : 'https://play.google.com/store/apps/details?id=' + game.id}" target="_blank" class="btn-download">Download</a>
+                </div>
+            `).join('');
+        }
+        function filterGames() {
+            const input = document.getElementById('searchBar').value.toLowerCase();
+            renderGames(games.filter(g => g.n.toLowerCase().includes(input)));
+        }
+        renderGames(games);
+    </script>
+</body>
+</html>
