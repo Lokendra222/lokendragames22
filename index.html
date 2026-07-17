@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8"><meta name="google-site-verification" content="9jhHyH5WY7XaUopZolmLz4eEZ6fpWVe7sW0F38oU0qU" />
-    <meta name="description" content="LokendraGames - Download trending Android games and exclusive APKs like Chess Master LM.">
-    <meta name="keywords" content="LokendraGames, Download APK, Chess Master LM, Gaming Hub, Android Games">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LokendraGames | Premium Gaming Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #FF9800; --secondary: #FFC107; --bg: #1a1a1a; --card: #252525; }
         body { margin: 0; font-family: 'Exo 2', sans-serif; background: var(--bg); color: white; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(0,0,0,0.9); position: sticky; top: 0; border-bottom: 2px solid var(--primary); }
-        .logo { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); }
+        .logo { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; color: black; }
         .hero { text-align: center; padding: 50px 20px; }
-        #searchBar { width: 60%; max-width: 600px; padding: 15px; border-radius: 50px; border: 2px solid var(--primary); background: #000; color: white; outline: none; }
+        #searchBar { width: 60%; max-width: 600px; padding: 15px 25px; border-radius: 50px; border: 2px solid var(--primary); background: #000; color: white; outline: none; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; padding: 40px 5%; }
-        .card { background: var(--card); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #444; }
-        .card img { width: 90px; height: 90px; border-radius: 20px; margin-bottom: 15px; background: #333; object-fit: cover; }
-        .btn-download { display: block; margin-top: 10px; padding: 10px; background: var(--primary); color: black; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .card { background: var(--card); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #444; transition: 0.3s; }
+        .card img { width: 90px; height: 90px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #555; background: #333; object-fit: cover; }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .btn-download { display: block; margin-top: 10px; padding: 10px; background: linear-gradient(45deg, var(--primary), var(--secondary)); color: black; border-radius: 8px; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-    <nav><div class="logo">LG</div><div style="font-size: 22px; font-weight: bold; color: var(--primary);">LOKENDRAGAMES</div></nav>
-    <div class="hero"><h1>Explore 40+ Trending Games</h1><input type="text" id="searchBar" placeholder="Search games..." onkeyup="filterGames()"></div>
+
+    <nav>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo">LG</div>
+            <div style="font-size: 22px; font-weight: bold; color: var(--primary);">LOKENDRAGAMES</div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1 style="color: var(--secondary);">Explore 40+ Trending Games</h1>
+        <input type="text" id="searchBar" placeholder="Search games..." onkeyup="filterGames()">
+    </div>
+
     <div class="grid" id="gameGrid"></div>
 
     <script>
         const games = [
-            { n: "Chess Master LM", id: "12rKDC5fEBC6FtflEh1byWIV2no6GEPAj", type: "custom" },
+            { n: "Chess Master LM V1.2", id: "1caKk6wM_5lyCQXJ0z3HIE0EdLlZG9ArP", type: "custom" },
             { n: "PUBG Mobile", id: "com.tencent.ig", type: "play" }, { n: "Free Fire", id: "com.dts.freefireth", type: "play" },
             { n: "Minecraft", id: "com.mojang.minecraftpe", type: "play" }, { n: "GTA V", id: "com.rockstargames.gtav", type: "play" },
             { n: "Genshin Impact", id: "com.miHoYo.GenshinImpact", type: "play" }, { n: "Roblox", id: "com.roblox.client", type: "play" },
@@ -51,18 +62,24 @@
 
         function renderGames(list) {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = list.map(game => `
-                <div class="card">
-                    <img src="${game.type === 'custom' ? 'https://ui-avatars.com/api/?name=Chess&background=FF9800' : 'https://lh3.googleusercontent.com/' + game.id + '=w200-h200-rw'}" onerror="this.src='https://ui-avatars.com/api/?name=${game.n}'">
-                    <h3>${game.n}</h3>
-                    <a href="${game.type === 'custom' ? 'https://drive.google.com/uc?export=download&id=' + game.id : 'https://play.google.com/store/apps/details?id=' + game.id}" target="_blank" class="btn-download">Download</a>
-                </div>
-            `).join('');
+            grid.innerHTML = list.map(game => {
+                let link = (game.type === "custom") ? `https://drive.google.com/uc?export=download&id=${game.id}` : `https://play.google.com/store/apps/details?id=${game.id}`;
+                let img = (game.type === "custom") ? `https://ui-avatars.com/api/?name=Chess&background=FF9800&color=000&size=200` : `https://lh3.googleusercontent.com/${game.id}=w200-h200-rw`;
+                return `
+                    <div class="card">
+                        <img src="${img}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(game.n)}&background=333&color=fff&size=200'" alt="${game.n}">
+                        <h3 style="margin: 10px 0; color: var(--secondary);">${game.n}</h3>
+                        <a href="${link}" target="_blank" class="btn-download">Download</a>
+                    </div>
+                `;
+            }).join('');
         }
+
         function filterGames() {
             const input = document.getElementById('searchBar').value.toLowerCase();
             renderGames(games.filter(g => g.n.toLowerCase().includes(input)));
         }
+
         renderGames(games);
     </script>
 </body>
