@@ -38,6 +38,7 @@
     <script>
         const games = [
             { n: "Chess Master LM V1.2", id: "1caKk6wM_5lyCQXJ0z3HIE0EdLlZG9ArP", type: "custom" },
+            { n: "New Custom Game", id: "1tOO4LmJG76tmCSFWsAplFRBDYbZpl7Cj", type: "custom" },
             { n: "PUBG Mobile", id: "com.tencent.ig", type: "play" }, { n: "Free Fire", id: "com.dts.freefireth", type: "play" },
             { n: "Minecraft", id: "com.mojang.minecraftpe", type: "play" }, { n: "GTA V", id: "com.rockstargames.gtav", type: "play" },
             { n: "Genshin Impact", id: "com.miHoYo.GenshinImpact", type: "play" }, { n: "Roblox", id: "com.roblox.client", type: "play" },
@@ -64,7 +65,7 @@
             const grid = document.getElementById('gameGrid');
             grid.innerHTML = list.map(game => {
                 let link = (game.type === "custom") ? `https://drive.google.com/uc?export=download&id=${game.id}` : `https://play.google.com/store/apps/details?id=${game.id}`;
-                let img = (game.type === "custom") ? `https://ui-avatars.com/api/?name=Chess&background=FF9800&color=000&size=200` : `https://lh3.googleusercontent.com/${game.id}=w200-h200-rw`;
+                let img = (game.type === "custom") ? `https://ui-avatars.com/api/?name=${encodeURIComponent(game.n)}&background=FF9800&color=000&size=200` : `https://lh3.googleusercontent.com/${game.id}=w200-h200-rw`;
                 return `
                     <div class="card">
                         <img src="${img}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(game.n)}&background=333&color=fff&size=200'" alt="${game.n}">
